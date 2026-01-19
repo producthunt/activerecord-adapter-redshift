@@ -302,6 +302,15 @@ module ActiveRecord
         true
       end
 
+      # Rails 8.1+ compatibility - these methods are called but may not exist in AbstractAdapter
+      def check_if_write_query(sql)
+        # Redshift is typically read-only, no check needed
+      end
+
+      def mark_transaction_written_if_write(sql)
+        # Redshift is typically read-only, no marking needed
+      end
+
       # Returns the configured supported identifier length supported by PostgreSQL
       def table_alias_length
         @table_alias_length ||= query('SHOW max_identifier_length', 'SCHEMA')[0][0].to_i
